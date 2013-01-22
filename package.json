@@ -1,0 +1,26 @@
+{
+  "name": "smb",
+  "description": "SMB protocol implementation in javascript",
+  "keywords": [
+    "smb",
+    "file",
+    "system",
+    "protocol"
+  ],
+  "version": "0.0.0",
+  "author": "Ben Kelly <ben@wanderview.com>",
+  "license": "BSD",
+  "dependencies": {
+  },
+  "devDependencies": {
+    "nodeunit": "~0.7.4"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:wanderview/node-smb.git"
+  },
+  "scripts": {
+    "test": "nodeunit test"
+  },
+  "main": "index.js"
+}
