@@ -28,14 +28,18 @@ var unpack = require('../lib/unpack');
 var pcapExtract = require('./helpers/pcap-extract');
 
 module.exports.testSmb = function(test) {
-  test.expect(4);
+  test.expect(7);
   pcapExtract('smb-negotiate-protocol-request-winxp.pcap', function(payload) {
     test.ok(payload);
 
     var msg = unpack(payload);
-    test.equal(0xff, msg.protocol[0]);
-    test.equal('SMB', msg.protocol.slice(1).toString())
-    test.equal(0x72, msg.command);
+    test.equal(0xff, msg.raw.protocol[0]);
+    test.equal('SMB', msg.raw.protocol.slice(1).toString())
+    test.equal(0x72, msg.raw.command);
+
+    test.equal('negotiate', msg.command);
+    test.ok(msg.dialects);
+    test.equal(6, msg.dialects.length);
 
     test.done();
   });
