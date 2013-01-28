@@ -12,6 +12,7 @@
   "license": "BSD",
   "dependencies": {
     "binary": "~0.3.0",
+    "put": "~0.0.6",
     "netbios-session": "~0.1.0"
   },
   "devDependencies": {
