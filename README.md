@@ -2,6 +2,8 @@
 
 A 100% javascript implementation of the [SMB][] file sharing protocol.
 
+[![Build Status](https://travis-ci.org/wanderview/node-smb.png)](https://travis-ci.org/wanderview/node-smb)
+
 Or it will be, one day.
 
 Currently this is a working area for implementing the protocol.  Its likely
