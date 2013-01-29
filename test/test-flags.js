@@ -23,35 +23,56 @@
 
 'use strict';
 
-module.exports = pack;
+var flagsUtil = require('../lib/flags');
 
-var flagsUtil = require('./flags');
-var put = require('put');
+module.exports.zero = function(test) {
+  test.expect(2);
 
-var COMMAND_FROM_STRING = {
-  'negotiate': 0x72
+  var f = 0x0;
+  var f2 = 0x0;
+
+  var o = flagsUtil.toObj(f, f2);
+  var r = flagsUtil.fromObj(o);
+
+  test.equal(f, r.flags);
+  test.equal(f2, r.flags2);
+  test.done();
 };
 
-function pack(msg) {
-  var out = put();
+module.exports.full = function(test) {
+  test.expect(2);
 
-  var flags = flagsUtil.fromObj(msg.flags);
+  // set all bits except for unused or reserved
+  var f = 0xff;
+  f ^= (1 << 1);
+  f ^= (1 << 2);
 
-  out.word8(0xff)
-     .put(new Buffer('SMB'))
-     .word8(COMMAND_FROM_STRING[msg.command])
-     .word32le(msg.status)
-     .word8(flags.flags)
-     .word16le(flags.flags2)
-     .word16le(msg.extra.pidHigh)
-     .put(msg.extra.signature)
-     .pad(2)
-     .word16le(msg.tid)
-     .word16le(msg.pid)
-     .word16le(msg.uid)
-     .word16le(msg.mid);
+  var f2 = 0xffff;
+  f2 ^= (1 << 3);
+  f2 ^= (1 << 5);
+  f2 ^= (1 << 7);
+  f2 ^= (1 << 8);
+  f2 ^= (1 << 9);
+  f2 ^= (1 << 10);
 
-  // TODO: command specific params and data
+  var o = flagsUtil.toObj(f, f2);
+  var r = flagsUtil.fromObj(o);
 
-  return out.buffer();
-}
+  test.equal(f, r.flags);
+  test.equal(f2, r.flags2);
+  test.done();
+};
+
+module.exports.typical = function(test) {
+  test.expect(2);
+
+  var f = 0x18;
+  var f2 = 0xc853;
+
+  var o = flagsUtil.toObj(f, f2);
+  var r = flagsUtil.fromObj(o);
+
+  test.equal(f, r.flags);
+  test.equal(f2, r.flags2);
+  test.done();
+};
